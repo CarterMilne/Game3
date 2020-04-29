@@ -49,7 +49,7 @@ public class MovementScript : MonoBehaviour
 
     private void Flip(float inputHorizontal)
     {
-        if(inputHorizontal > 0 && !facingLeft || inputHorizontal < 0 && facingLeft )
+        if(inputHorizontal < 0 && !facingLeft || inputHorizontal > 0 && facingLeft )
         {
             facingLeft = !facingLeft;
 
@@ -58,6 +58,17 @@ public class MovementScript : MonoBehaviour
 
             transform.localScale = theScale;
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        playerHealth.SetHealth(currentHealth);
+
+        /*  if (health <= 0)
+          {
+              Die();
+          } */
     }
 }
 
