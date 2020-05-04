@@ -11,7 +11,7 @@ public class MovementScript : MonoBehaviour
     public float maxHealth = 100f;
     public float currentHealth;
     public PlayerHealth playerHealth;
-    private bool facingLeft = true;
+    public bool facingLeft = true;
     
 
     void Start()

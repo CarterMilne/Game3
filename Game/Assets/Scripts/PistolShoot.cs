@@ -6,6 +6,12 @@ public class PistolShoot : MonoBehaviour
 {
     public Transform firePoint;
     public GameObject bulletPrefab;
+    public SpriteRenderer player;
+    
+    void Start()
+    {
+        player = transform.GetComponent<SpriteRenderer>();
+    }
 
     void Update()
     {
@@ -17,6 +23,16 @@ public class PistolShoot : MonoBehaviour
 
     void Shoot ()
     {
-        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        if (player.flipX)
+        {
+           GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+           bullet.GetComponent<Bullet>().isFlipped = true;
+        }
+        else
+        {
+            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+            bullet.GetComponent<Bullet>().isFlipped = false;
+        }
+        
     }
 }
