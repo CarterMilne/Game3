@@ -8,10 +8,25 @@ public class Bullet : MonoBehaviour
     public float speed = 20f;
     public float damage = 40f;
     public Rigidbody2D iRigidbody;
+    public bool isFlipped;
 
     void Start()
     {
-        iRigidbody.velocity = transform.right * speed;
+        if (FindObjectOfType<MovementScript>().facingLeft)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 180);
+            iRigidbody.velocity = new Vector3(-1, 0, 0) * speed;
+            Debug.Log("I'm Flipped");
+
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            iRigidbody.velocity = new Vector3(1, 0, 0) * speed;
+            Debug.Log("I'm Not");
+        }
+
+        
     }
 
     void OnTriggerEnter2D (Collider2D hitInfo)
