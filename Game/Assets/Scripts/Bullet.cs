@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
     
     public float speed = 20f;
-    public float damage = 40f;
+    public float damage = 25f;
     public Rigidbody2D iRigidbody;
     public bool isFlipped;
 

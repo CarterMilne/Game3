@@ -70,5 +70,19 @@ public class MovementScript : MonoBehaviour
               Die();
           } */
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "MedKit")
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void GainHealth(float health)
+    {
+        currentHealth += health;
+        playerHealth.SetHealth(currentHealth);
+    }
 }
 

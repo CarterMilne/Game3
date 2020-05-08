@@ -25,7 +25,7 @@ public class BulletScript : MonoBehaviour
         {
             Debug.Log("Hit!");
             Destroy(gameObject);
-            target.TakeDamage(20f);
+            target.TakeDamage(10f);
         }
     }
     
