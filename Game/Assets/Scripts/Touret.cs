@@ -1,20 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 
 public class Touret : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] GameObject BulletTouret;
+    // this gameobject is the snakes shooting bullet prefab
+    float fireRate;
+    // the fire rate can be changed
+    float nextFire;
+    // the time for the next fire
     void Start()
     {
-       // while (Bullet > 0)
-         //   Fire = true;
+        fireRate = 1f;
+        nextFire = Time.time;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        CheckIfTimeToFire();
+        // this just runs the fire function
+    }
+
+    void CheckIfTimeToFire()
+    // the function for the enemy fire
+    {
+        if (Time.time > nextFire)
+        {
+            Instantiate(BulletTouret, transform.position, Quaternion.identity);
+            nextFire = Time.time + fireRate;
+            // the bullet is instantiatied which spawns it ehn is takes the fire rate and shoots
+        }
     }
 }
