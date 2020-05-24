@@ -5,7 +5,6 @@ using System;
 
 public class SnakePatrol : MonoBehaviour
 {
-
     public float speed;
     // speed variable that is for the snake speed
     public float distance;

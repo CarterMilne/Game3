@@ -1,11 +1,14 @@
 ﻿
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MovementScript : MonoBehaviour
 {
+    private int jumps = 0;
     [SerializeField] public int speed = 4;
     // this serialize field allows the speed interger to be changed in the inspector
     private Rigidbody2D rb;
@@ -20,7 +23,12 @@ public class MovementScript : MonoBehaviour
     // calling the player health 
     public bool facingLeft = true;
     // the boolean is called facing left this at the start sets the charcters facingLeft variable to true
-    
+    // [SerializeField] public bool PlayerIsGrounded;
+    [SerializeField] float raycastLength = 0.05f;
+    [SerializeField] Transform groundCheckOne;
+    [SerializeField] Transform groundCheckTwo;
+    [SerializeField] Transform groundCheckThree;
+
 
     void Start()
     {
@@ -30,16 +38,16 @@ public class MovementScript : MonoBehaviour
 
         Canvas[] canvases = FindObjectsOfType<Canvas>();
         Canvas canvasMain = null;
-        foreach(Canvas canvas in canvases)
+        foreach (Canvas canvas in canvases)
         {
-            if(canvas.gameObject.name == "CanvasHealthBar")
+            if (canvas.gameObject.name == "CanvasHealthBar")
             {
                 canvasMain = canvas;
                 break;
             }
         }
         // this allows multiple canvases on the canvas helping for future game devolpment allowing the game to be more robust and flexable
-        
+
         playerHealth = canvasMain.transform.Find("Health bar").GetComponent<PlayerHealth>();
         //playerHealth = transform.Find("Canvas").Find("PlayerHealth").GetComponent<PlayerHealth>();
         playerHealth.SetHealth(maxHealth);
@@ -54,19 +62,25 @@ public class MovementScript : MonoBehaviour
         rb.velocity = new Vector2(inputHorizontal * speed, rb.velocity.y);
         // the chacter is going to move at the speed variable set and the input that is chosen
         if (Input.GetButtonDown("Jump"))
-            // when the w is pressed 
+        // when the w is pressed 
         {
             rb.velocity = new Vector2(rb.velocity.x, 8);
             // this will move the characters y axis by the set amount
+            jumps++;
         }
-            Flip(inputHorizontal);
+        if (PlayerIsGrounded)
+        {
+
+        }
+
+        Flip(inputHorizontal);
     }
 
     private void Flip(float inputHorizontal)
-        // this is the flip function
+    // this is the flip function
     {
-        if(inputHorizontal < 0 && !facingLeft || inputHorizontal > 0 && facingLeft )
-            // when the input is a or d then the facing left will be flipped
+        if (inputHorizontal < 0 && !facingLeft || inputHorizontal > 0 && facingLeft)
+        // when the input is a or d then the facing left will be flipped
         {
             facingLeft = !facingLeft;
 
@@ -79,17 +93,17 @@ public class MovementScript : MonoBehaviour
     }
 
     public void TakeDamage(float damage)
-        // this function allows the character to take damage
+    // this function allows the character to take damage
     {
         currentHealth -= damage;
         // the players current health minus the damage from the enemy
         playerHealth.SetHealth(currentHealth);
         // the players health and current health in realtion
 
-          if (currentHealth <= 0)
-          {
+        if (currentHealth <= 0)
+        {
             SceneManager.LoadScene("GameOver");
-          } 
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -99,6 +113,20 @@ public class MovementScript : MonoBehaviour
             Destroy(col.gameObject);
             GainHealth(25f);
         }
+        if (col.gameObject.tag == "Touret")
+        {
+            Destroy(col.gameObject);
+        }
+    }
+
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "Door")
+        {
+            SceneManager.LoadScene("Level 2");
+        }
+
     }
 
     public void GainHealth(float health)
@@ -106,5 +134,18 @@ public class MovementScript : MonoBehaviour
         currentHealth += health;
         playerHealth.SetHealth(currentHealth);
     }
+
+    public bool PlayerIsGrounded()
+    {
+        bool groundCheck1 = Physics2D.Raycast(GroundCheck.posistion, -Vector2.up, raycastLength, LayerMask.GetMask("Ground"));
+        bool groundCheck2 = Physics2D.Raycast(GroundCheck.posistion, -Vector2.up, raycastLength, LayerMask.GetMask("Ground"));
+        bool groundCheck3 = Physics2D.Raycast(GroundCheck.posistion, -Vector2.up, raycastLength, LayerMask.GetMask("Ground"));
+        if (groundCheck1 || groundCheck2 || groundCheck3)
+        {
+            return true;
+        }
+        return false;
+    }
+    
 }
 
