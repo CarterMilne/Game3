@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
-    public float health = 100;
+    public float health = 250f;
    
     public void TakeDamage(float damage)
     {
