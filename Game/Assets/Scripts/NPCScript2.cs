@@ -5,14 +5,18 @@ using UnityEngine.UI;
 using TMPro;
 
 
-public class NPC : MonoBehaviour
+public class NPCScript2 : MonoBehaviour
 {
     GameObject Panel;
+    //calling the panel in game
     public bool displayText;
+    // making a boolean called display text able to be set as true or false
     TextMeshProUGUI textBox;
+    // calling the textbox mesh pro edit on GUI textbox
     string[] messages = new string[]
-    { "I am your Guide","In order to control your character","Use WASD to move up left right and down","In order to fire your gun use the left mouse", "Your Objective is to kill everything in sight", "And hopefully not die, but you can always restart", "Also be sure to stay in bounds to not instant die"
-    ,"Try and reach the door at the each of the levels to continue","Good Luck!"};
+    { "Good Job, on reaching this far!", "You have be transported to another location and reach the door to make it to the end!", 
+     "You still need to kill everything in sight"
+    ,"But the Machine Gun touret you need to touch to disable","Good Luck!"};
     // these are the messages that the NPC is going to display
     int index;
     // calling the index as an integer
@@ -88,3 +92,6 @@ public class NPC : MonoBehaviour
     }
 
 }
+
+
+
