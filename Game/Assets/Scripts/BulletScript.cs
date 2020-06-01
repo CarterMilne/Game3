@@ -23,7 +23,7 @@ public class BulletScript : MonoBehaviour
         // the direction of the bullet follows the players current positoion
         iRigidbody.velocity = new Vector2(moveDirection.x, moveDirection.y);
         // the rigidbody of the bullet
-        Destroy(gameObject, 3f);  
+        Destroy(gameObject, 1.5f);  
     }
     
     void OnTriggerEnter2D (Collider2D col)

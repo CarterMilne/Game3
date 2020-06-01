@@ -48,7 +48,7 @@ public class MovementScript : MonoBehaviour
             if (canvas.gameObject.name == "CanvasHealthBar")
             {
                 canvasMain = canvas;
-                break;
+                break;  
             }
         }
         // this allows multiple canvases on the canvas helping for future game devolpment allowing the game to be more robust and flexable
