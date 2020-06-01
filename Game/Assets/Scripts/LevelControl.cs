@@ -11,6 +11,7 @@ public class LevelControl : MonoBehaviour
         if (col.gameObject.tag == "Man")
         {
             SceneManager.LoadScene("Level 2");
+            //loads the level 2 scene
         }
     }
 }

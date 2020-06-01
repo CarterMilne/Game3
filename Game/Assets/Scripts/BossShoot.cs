@@ -5,7 +5,9 @@ using UnityEngine;
 public class BossShoot : MonoBehaviour
 {
     [SerializeField] GameObject BossBullet;
+    // the bosses gameobject is called
     float fireRate;
+    // the set fire rate
     float nextFire;
   
     void Start()
