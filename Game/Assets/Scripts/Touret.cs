@@ -13,7 +13,9 @@ public class Touret : MonoBehaviour
     void Start()
     {
         fireRate = 1f;
+        // the fire rate is one second
         nextFire = Time.time;
+        // the next fire is equal to one Time.time
     }
 
     void Update()

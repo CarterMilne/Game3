@@ -5,4 +5,5 @@ using UnityEngine;
 public class SceneData : MonoBehaviour
 {
     public GameObject medkit;
+    // getting med kit gameobject
 }
