@@ -44,6 +44,22 @@ public class Bullet : MonoBehaviour
             enemy.TakeDamage(damage);
         }
         Destroy(gameObject);
+
+        PrisonerHealth prisoner = hitInfo.GetComponent<PrisonerHealth>();
+        // finds the enemy component
+        if (prisoner != null)
+        {
+            prisoner.TakeDamage(damage);
+        }
+        Destroy(gameObject);
+
+        Boss boss = hitInfo.GetComponent<Boss>();
+        // finds the enemy component
+        if (boss != null)
+        {
+            boss.TakeDamage(damage);
+        }
+        Destroy(gameObject);
     }
 }
 

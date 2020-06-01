@@ -1,14 +1,17 @@
-﻿
+﻿    
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
+using System.IO.Pipes;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MovementScript : MonoBehaviour
 {
-    private int jumps = 0;
+   
     [SerializeField] public int speed = 4;
     // this serialize field allows the speed interger to be changed in the inspector
     private Rigidbody2D rb;
@@ -22,14 +25,16 @@ public class MovementScript : MonoBehaviour
     public PlayerHealth playerHealth;
     // calling the player health 
     public bool facingLeft = true;
+    public bool canJump = true;
     // the boolean is called facing left this at the start sets the charcters facingLeft variable to true
-    // [SerializeField] public bool PlayerIsGrounded;
-    [SerializeField] float raycastLength = 0.05f;
-    [SerializeField] Transform groundCheckOne;
-    [SerializeField] Transform groundCheckTwo;
-    [SerializeField] Transform groundCheckThree;
-
-
+    public bool displayText;
+    /*
+    float raycastLength = 5f;
+    public Transform groundCheckOne;
+    public Transform groundCheckTwo;
+    public Transform groundCheckThree;
+    */
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -53,26 +58,37 @@ public class MovementScript : MonoBehaviour
         playerHealth.SetHealth(maxHealth);
         // the player health is the same as the set health in relation to the maximum health of the player
         facingLeft = true;
+        
+        /*
+        groundCheckOne = GameObject.Find("groundCheckOne").transform;
+        groundCheckTwo = GameObject.Find("groundCheckTwo").transform;
+        groundCheckThree = GameObject.Find("groundCheckThree").transform;
+        */
+
     }
 
     void Update()
-    {
+    { 
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         // when the a or d or the arrows are pressed the character will move x axis
         rb.velocity = new Vector2(inputHorizontal * speed, rb.velocity.y);
         // the chacter is going to move at the speed variable set and the input that is chosen
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") /*&& canJump*/)
         // when the w is pressed 
         {
             rb.velocity = new Vector2(rb.velocity.x, 8);
             // this will move the characters y axis by the set amount
-            jumps++;
+            
         }
-        if (PlayerIsGrounded)
+     /*   if (PlayerIsGrounded())
         {
-
+            canJump = true;
         }
-
+        else
+        {
+            canJump = false;
+        }
+        */
         Flip(inputHorizontal);
     }
 
@@ -117,16 +133,35 @@ public class MovementScript : MonoBehaviour
         {
             Destroy(col.gameObject);
         }
+        if(col.gameObject.tag == "Void")
+        {
+            SceneManager.LoadScene("GameOver");
+        }
+        if (col.gameObject.tag == "NPC")
+        {
+           bool displayText = true;
+        }
+        if (col.gameObject.tag == "MenuDoor")
+        {
+            SceneManager.LoadScene("Menu and Intro");
+        }
+        if (col.gameObject.tag == "RestartDoor")
+        {
+            SceneManager.LoadScene("Level 1");
+        }
+        if (col.gameObject.tag == "PrisonDoor")
+        {
+            SceneManager.LoadScene("End Level");
+        }
     }
 
-
+    
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Door")
         {
             SceneManager.LoadScene("Level 2");
         }
-
     }
 
     public void GainHealth(float health)
@@ -134,18 +169,20 @@ public class MovementScript : MonoBehaviour
         currentHealth += health;
         playerHealth.SetHealth(currentHealth);
     }
-
+    /*
     public bool PlayerIsGrounded()
     {
-        bool groundCheck1 = Physics2D.Raycast(GroundCheck.posistion, -Vector2.up, raycastLength, LayerMask.GetMask("Ground"));
-        bool groundCheck2 = Physics2D.Raycast(GroundCheck.posistion, -Vector2.up, raycastLength, LayerMask.GetMask("Ground"));
-        bool groundCheck3 = Physics2D.Raycast(GroundCheck.posistion, -Vector2.up, raycastLength, LayerMask.GetMask("Ground"));
+        
+        bool groundCheck1 = Physics2D.Raycast(groundCheckOne.localPosition, -Vector2.down, raycastLength, LayerMask.GetMask("Ground"));
+        bool groundCheck2 = Physics2D.Raycast(groundCheckTwo.localPosition, -Vector2.down, raycastLength, LayerMask.GetMask("Ground"));
+        bool groundCheck3 = Physics2D.Raycast(groundCheckThree.localPosition, -Vector2.down, raycastLength, LayerMask.GetMask("Ground"));
+        
         if (groundCheck1 || groundCheck2 || groundCheck3)
         {
-            return true;
+        return true;
         }
         return false;
     }
-    
+    */
 }
 
