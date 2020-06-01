@@ -27,14 +27,8 @@ public class MovementScript : MonoBehaviour
     public bool facingLeft = true;
     public bool canJump = true;
     // the boolean is called facing left this at the start sets the charcters facingLeft variable to true
-    public bool displayText;
-    /*
-    float raycastLength = 5f;
-    public Transform groundCheckOne;
-    public Transform groundCheckTwo;
-    public Transform groundCheckThree;
-    */
-    
+  
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -42,11 +36,14 @@ public class MovementScript : MonoBehaviour
         currentHealth = maxHealth;
 
         Canvas[] canvases = FindObjectsOfType<Canvas>();
+        // this finds the type of canvas called canvas
         Canvas canvasMain = null;
+        // it sets the canvases to null 
         foreach (Canvas canvas in canvases)
         {
             if (canvas.gameObject.name == "CanvasHealthBar")
             {
+                // if the gameobject called canvas health bad is then it lets it run
                 canvasMain = canvas;
                 break;  
             }
@@ -58,13 +55,6 @@ public class MovementScript : MonoBehaviour
         playerHealth.SetHealth(maxHealth);
         // the player health is the same as the set health in relation to the maximum health of the player
         facingLeft = true;
-        
-        /*
-        groundCheckOne = GameObject.Find("groundCheckOne").transform;
-        groundCheckTwo = GameObject.Find("groundCheckTwo").transform;
-        groundCheckThree = GameObject.Find("groundCheckThree").transform;
-        */
-
     }
 
     void Update()
@@ -80,16 +70,8 @@ public class MovementScript : MonoBehaviour
             // this will move the characters y axis by the set amount
             
         }
-     /*   if (PlayerIsGrounded())
-        {
-            canJump = true;
-        }
-        else
-        {
-            canJump = false;
-        }
-        */
         Flip(inputHorizontal);
+        // this flips the x axis that we input
     }
 
     private void Flip(float inputHorizontal)
@@ -128,30 +110,32 @@ public class MovementScript : MonoBehaviour
         {
             Destroy(col.gameObject);
             GainHealth(25f);
+            // if we touch the medkit game object then gain health
         }
         if (col.gameObject.tag == "Touret")
         {
             Destroy(col.gameObject);
+            // this will load the scene when there is a collision with the man and the tag
         }
-        if(col.gameObject.tag == "Void")
+        if (col.gameObject.tag == "Void")
         {
             SceneManager.LoadScene("GameOver");
-        }
-        if (col.gameObject.tag == "NPC")
-        {
-           bool displayText = true;
+            // this will load the scene when there is a collision with the man and the tag
         }
         if (col.gameObject.tag == "MenuDoor")
         {
             SceneManager.LoadScene("Menu and Intro");
+            // this will load the scene when there is a collision with the man and the tag
         }
         if (col.gameObject.tag == "RestartDoor")
         {
             SceneManager.LoadScene("Level 1");
+            // this will load the scene when there is a collision with the man and the tag
         }
         if (col.gameObject.tag == "PrisonDoor")
         {
             SceneManager.LoadScene("End Level");
+            // this will load the scene when there is a collision with the man and the tag
         }
     }
 
@@ -161,28 +145,16 @@ public class MovementScript : MonoBehaviour
         if (col.gameObject.tag == "Door")
         {
             SceneManager.LoadScene("Level 2");
+            // this will load the cecne level 2 when the player collides with the door
         }
     }
 
     public void GainHealth(float health)
     {
         currentHealth += health;
+        // this lets the player gain health to the current health
         playerHealth.SetHealth(currentHealth);
+        // the players health is the current health
     }
-    /*
-    public bool PlayerIsGrounded()
-    {
-        
-        bool groundCheck1 = Physics2D.Raycast(groundCheckOne.localPosition, -Vector2.down, raycastLength, LayerMask.GetMask("Ground"));
-        bool groundCheck2 = Physics2D.Raycast(groundCheckTwo.localPosition, -Vector2.down, raycastLength, LayerMask.GetMask("Ground"));
-        bool groundCheck3 = Physics2D.Raycast(groundCheckThree.localPosition, -Vector2.down, raycastLength, LayerMask.GetMask("Ground"));
-        
-        if (groundCheck1 || groundCheck2 || groundCheck3)
-        {
-        return true;
-        }
-        return false;
-    }
-    */
 }
 
